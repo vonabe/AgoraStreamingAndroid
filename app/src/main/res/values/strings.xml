@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">AudioStreamAgoraIO</string>
+
+    <string name="agora_app_id">1e48b1ddd20144dba6ab600eb2a70327</string>
+    <string name="app_certificate">027ed3727b954f8e825a66825368bce9</string>
+
+    <!--<string name="token_channel">0066d070335e66a46228947d468e54e2f1aIAC6haZRn/0fIITjO+G4UNUnF0Fksb2AseVwBKVLvgytJgcJVwMAAAAAEAAMkgLiALwxXQEAAQD+uzFd</string>-->
+    <string name="channel_name">sportapp</string>
+
+    <string name="my_agora_app_id">1868c9b8020d40f68a46690bca95ea95</string>
+    <string name="my_app_certificate">027ed3727b954f8e825a66825368bce9</string>
+
+    <string name="my_token_channel">0061868c9b8020d40f68a46690bca95ea95IAD4M8yQTHIrwQXj3r3QFHlyoCf1MHmHYtdkPuzoF9XvhqlOrCQAAAAAEACn4BcVQeA5XQEAAQBB4Dld</string>
+    <!--<string name="token_channel">0066d070335e66a46228947d468e54e2f1aIAC6haZRn/0fIITjO+G4UNUnF0Fksb2AseVwBKVLvgytJgcJVwMAAAAAEAAMkgLiALwxXQEAAQD+uzFd</string>-->
+    <string name="my_channel_name">vonabe-channel</string>
+
+
+    <string name="msg_welcome_message">Welcome to OpenLive Voice Only!</string>
+
+    <string name="label_room_name_hint">Room name</string>
+
+    <string name="msg_choose_role">Would you like to be the broadcaster or an audience?</string>
+
+    <string name="label_audience">Audience</string>
+
+    <string name="label_broadcaster">Broadcaster</string>
+
+    <string name="label_confirm">Confirm</string>
+
+    <string name="label_join">Join</string>
+
+    <string name="msg_no_network_connection">No network connection, please check the network settings</string>
+
+    // DO NOT TRANSLATE
+    <string name="bit_rate_value_with_unit">%d kbps</string>
+    <string name="buffering_title">Buffering Input Stream</string>
+
+</resources>
