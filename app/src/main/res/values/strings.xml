@@ -10,7 +10,9 @@
     <string name="my_agora_app_id">1868c9b8020d40f68a46690bca95ea95</string>
     <string name="my_app_certificate">027ed3727b954f8e825a66825368bce9</string>
 
-    <string name="my_token_channel">0061868c9b8020d40f68a46690bca95ea95IAD4M8yQTHIrwQXj3r3QFHlyoCf1MHmHYtdkPuzoF9XvhqlOrCQAAAAAEACn4BcVQeA5XQEAAQBB4Dld</string>
+    <string name="my_token_channel">
+        0061868c9b8020d40f68a46690bca95ea95IAD4M8yQTHIrwQXj3r3QFHlyoCf1MHmHYtdkPuzoF9XvhqlOrCQAAAAAEACn4BcVQeA5XQEAAQBB4Dld
+    </string>
     <!--<string name="token_channel">0066d070335e66a46228947d468e54e2f1aIAC6haZRn/0fIITjO+G4UNUnF0Fksb2AseVwBKVLvgytJgcJVwMAAAAAEAAMkgLiALwxXQEAAQD+uzFd</string>-->
     <string name="my_channel_name">vonabe-channel</string>
 
@@ -34,5 +36,15 @@
     // DO NOT TRANSLATE
     <string name="bit_rate_value_with_unit">%d kbps</string>
     <string name="buffering_title">Buffering Input Stream</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="restore_password">Восстановление пароля</string>
 
 </resources>

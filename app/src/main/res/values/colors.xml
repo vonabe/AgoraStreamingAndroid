@@ -2,6 +2,11 @@
 <resources>
     <color name="agora_blue">#FF00A0EB</color>
 
+    <color name="text_enabled">#0F0F0F</color>
+    <color name="text_disabled">#cdd1da</color>
+
+    <color name="background_color">#f8f7f5</color>
+    <color name="orange">#fab090</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -13,4 +18,5 @@
     <color name="transparent_75_white">#ACFFFFFF</color>
 
     <color name="dark_gray">#FF55585A</color>
+    <color name="white">#FFFFFF</color>
 </resources>

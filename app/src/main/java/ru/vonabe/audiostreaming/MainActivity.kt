@@ -6,12 +6,14 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import io.agora.rtc.Constants
 import io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING
 import io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER
@@ -19,7 +21,7 @@ import io.agora.rtc.IAudioFrameObserver
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.vonabe.audiostreaming.only.model.EngineConfig
+import ru.vonabe.audiostreaming.only.EngineConfig
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +46,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val window = window
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.agora_blue, theme)
 
 //        StrictMode.setThreadPolicy(
 //            StrictMode.ThreadPolicy.Builder()

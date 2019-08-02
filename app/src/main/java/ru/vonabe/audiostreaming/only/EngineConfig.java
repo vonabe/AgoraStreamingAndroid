@@ -1,4 +1,4 @@
-package ru.vonabe.audiostreaming.only.model;
+package ru.vonabe.audiostreaming.only;
 
 public class EngineConfig {
     public int mClientRole;
