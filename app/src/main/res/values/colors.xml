@@ -2,8 +2,8 @@
 <resources>
     <color name="agora_blue">#FF00A0EB</color>
 
-    <color name="text_enabled">#0F0F0F</color>
-    <color name="text_disabled">#cdd1da</color>
+    <color name="text_enabled">#001023</color>
+    <color name="text_disabled">#CACFD8</color>
 
     <color name="background_color">#f8f7f5</color>
     <color name="orange">#fab090</color>
@@ -15,8 +15,9 @@
 
     <color name="dark_black">#CC262626</color>
 
-    <color name="transparent_75_white">#ACFFFFFF</color>
+    <color name="transparent_100_white">#00FFFFFF</color>
 
     <color name="dark_gray">#FF55585A</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF4900</color>
 </resources>

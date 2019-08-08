@@ -14,12 +14,27 @@
 
     </style>
 
+    <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:background">@color/transparent_100_white</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textColor">@color/agora_blue</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:drawablePadding">5dp</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -36,8 +51,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">2</item>
-        <item name="android:shadowColor">@color/transparent_75_white</item>
+        <item name="android:shadowColor">@color/transparent_100_white</item>
     </style>
+
 
 
 </resources>

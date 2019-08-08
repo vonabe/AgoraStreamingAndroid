@@ -1,18 +1,43 @@
 package ru.vonabe.audiostreaming.only;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 import ru.vonabe.audiostreaming.network.RetrofitClientInstance;
 import ru.vonabe.audiostreaming.network.pojo.RestApiService;
 
 public class AGApplication extends Application {
 
-//    private WorkerThread mWorkerThread;
+    //    private WorkerThread mWorkerThread;
     public static RestApiService service = RetrofitClientInstance.Companion.getInstance().create(RestApiService.class);
+
+    private static AGApplication instance;
+
+    private static Context context;
+
+    public static void saveLanguage(String country) {
+        SharedPreferences english_preferences = context.getSharedPreferences("english_preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = english_preferences.edit();
+        edit.putString("language", country);
+        edit.commit();
+        edit.apply();
+    }
+
+    public static String getLanguage() {
+        SharedPreferences english_preferences = context.getSharedPreferences("english_preferences", Context.MODE_PRIVATE);
+        String string = english_preferences.getString("language", "rus");
+        return string;
+    }
+
+    public static AGApplication getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        this.context = this;
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()
@@ -20,11 +45,7 @@ public class AGApplication extends Application {
                 .penaltyLog()
                 .build());
         instance = this;
-    }
 
-    private static AGApplication instance;
-    public static AGApplication getInstance(){
-        return instance;
     }
 
 //    public synchronized void initWorkerThread() {

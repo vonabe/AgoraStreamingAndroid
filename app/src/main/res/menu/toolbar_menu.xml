@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/money"
+            android:title="coins"
+            android:icon="@drawable/v_coin"
+            app:showAsAction="always"
+            android:actionLayout="@layout/activity_live_room"
+    />
+
+    <item
+            android:id="@+id/favorites"
+            android:title="fav"
+            android:icon="@drawable/v_like"
+            app:showAsAction="always"
+    />
+
+    <item
+            android:id="@+id/notification"
+            android:title="notif"
+            android:icon="@drawable/v_notification"
+            app:showAsAction="always"
+    />
+
+
+</menu>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     android:background="@color/transparent_100_white"
+                                                     app:elevation="0dp"
+                                                     android:id="@+id/appBarLayout"
+                                                     android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout android:layout_width="match_parent"
+                                                                    android:layout_height="wrap_content"
+                                                                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                                                                    android:background="@color/white"
+                                                                    android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:title="Hello World"
+                    app:layout_collapseMode="pin"
+                    android:background="@drawable/curve"
+                    app:titleTextColor="@color/agora_blue">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/photoProfile"
+                            android:background="@drawable/btn_circle"
+                            android:src="@android:drawable/ic_menu_camera"
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                    ></androidx.appcompat.widget.AppCompatImageButton>
+
+                    <View
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            app:layout_constraintEnd_toEndOf="@+id/photoProfile"
+                            app:layout_constraintBottom_toBottomOf="@+id/photoProfile"
+                            app:layout_constraintTop_toTopOf="@+id/photoProfile"
+                            android:background="@drawable/shape_edit"
+                            app:layout_constraintVertical_bias="0.0">
+
+                    </View>
+
+                    <LinearLayout
+                            android:id="@+id/containerMenu"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/photoProfile"
+                            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="1.0"
+                            android:layout_marginEnd="8dp">
+
+                        <ImageButton
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/v_coin"
+                                android:background="@drawable/btn_transparent_circle"
+                                android:layout_weight="1"
+                        />
+                        <ImageButton
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/v_like"
+                                android:background="@drawable/btn_transparent_circle"
+                                android:layout_weight="1"
+                        />
+                        <ImageButton
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/v_notification"
+                                android:background="@drawable/btn_transparent_circle"
+                                android:layout_weight="1"
+                        />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="СЕЙЧАС В ЭФИРЕ"
+                android:layout_marginStart="25dp" android:layout_marginTop="14dp" android:fontFamily="@font/oswald"
+                android:textSize="22sp" android:textColor="#001023"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerOnlineStreamers"
+                android:layout_marginTop="14dp"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+                android:id="@+id/titleStreamers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerOnlineStreamers"
+                android:textSize="22sp"
+                android:fontFamily="@font/oswald"
+                android:textStyle="normal"
+                android:textAllCaps="true"
+                android:text="Стримеры"
+                android:textColor="#001023"
+        />
+
+        <TextView
+                android:id="@+id/titleTranslation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="24dp"
+                app:layout_constraintStart_toEndOf="@+id/titleStreamers"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerOnlineStreamers"
+                android:textSize="22sp"
+                android:fontFamily="@font/oswald"
+                android:textStyle="normal"
+                android:textAllCaps="true"
+                android:text="Трансляции"
+                android:textColor="#CACFD8"
+        />
+
+        <LinearLayout
+                android:id="@+id/containerSearch"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="13dp"
+                android:gravity="center|start"
+                app:layout_constraintTop_toBottomOf="@+id/titleTranslation">
+
+            <TextView
+                    android:id="@+id/txtSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="26dp"
+                    android:textColor="#CACFD8"
+                    android:fontFamily="@font/lato"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:text="Поиск"/>
+
+            <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+            />
+
+            <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchStreamers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            </androidx.appcompat.widget.SearchView>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

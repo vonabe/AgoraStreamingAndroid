@@ -46,5 +46,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="restore_password">Восстановление пароля</string>
+    <string name="license_registration">Нажимая кнопку Зарегистрировать, Вы принимаете условия Пользовательского соглашения.</string>
 
 </resources>

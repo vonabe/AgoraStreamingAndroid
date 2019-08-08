@@ -7,13 +7,24 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.login_activity.*
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.vonabe.audiostreaming.CustomEditText
+import ru.vonabe.audiostreaming.LanguageViewModel
 import ru.vonabe.audiostreaming.R
+import ru.vonabe.audiostreaming.network.pojo.Login
+import ru.vonabe.audiostreaming.only.AGApplication
 
 class LoginSignActivity : AppCompatActivity() {
 
@@ -27,11 +38,14 @@ class LoginSignActivity : AppCompatActivity() {
 
         setContentView(R.layout.login_activity)
 
-        val txtrus: TextView = txtRu
-        val txteng: TextView = txtEng
+        val model = ViewModelProviders.of(this).get(LanguageViewModel::class.java)
 
-        val editLogin: AppCompatEditText = editLogin
-        val editPassword: AppCompatEditText = editPassword
+//        val editLoginInput = editLoginInput
+//        val editPasswordInput = editPasswordInput
+
+        val editLogin: CustomEditText = editLogin
+        val editPassword: CustomEditText = editPassword
+        val error: TextView = errorOutput
 
         val textpassword = SpannableString(txtReceivePassword.text)
         textpassword.setSpan(UnderlineSpan(), 0, textpassword.length, 0)
@@ -44,6 +58,9 @@ class LoginSignActivity : AppCompatActivity() {
         val colorEnable = ContextCompat.getColor(this, R.color.text_enabled)
         val colorDisable = ContextCompat.getColor(this, R.color.text_disabled)
 
+        val txtrus: TextView = txtRu
+        val txteng: TextView = txtEng
+
         txtrus.setTextColor(colorEnable)
         txteng.setTextColor(colorDisable)
 
@@ -52,29 +69,77 @@ class LoginSignActivity : AppCompatActivity() {
                 txtrus -> {
                     txtrus.setTextColor(colorEnable)
                     txteng.setTextColor(colorDisable)
+                    AGApplication.saveLanguage("rus")
+                    model.language.value = ("rus")
                 }
                 txteng -> {
                     txteng.setTextColor(colorEnable)
                     txtrus.setTextColor(colorDisable)
+                    AGApplication.saveLanguage("eng")
+                    model.language.value = ("eng")
                 }
                 btnLogin -> {
+                    btnLogin.isEnabled = false
+                    if (!editLogin.text.isNullOrEmpty() and !editPassword.text.isNullOrEmpty()) {
+                        loading.visibility = View.VISIBLE
+                        AGApplication.service.login(
+                            email = RequestBody.create(MediaType.get("multipart/form-data"), editLogin.text.toString()),
+                            password = RequestBody.create(
+                                MediaType.get("multipart/form-data"),
+                                editPassword.text.toString()
+                            )
+                        ).enqueue(object : Callback<Login> {
+                            override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                                Toast.makeText(
+                                    this@LoginSignActivity,
+                                    "${response.body().toString()}",
+                                    Toast.LENGTH_LONG
+                                ).show()
 
+                                loading.visibility = View.GONE
+                                btnLogin.isEnabled = true
+                            }
+
+                            override fun onFailure(call: Call<Login>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(this@LoginSignActivity, "Error ${t.message}", Toast.LENGTH_LONG)
+                                    .show()
+                                loading.visibility = View.GONE
+                                btnLogin.isEnabled = true
+                            }
+                        })
+                    }
                 }
                 txtRegistration -> {
                     startActivity(Intent(this, SigninActivity::class.java))
                 }
             }
         }
-
         txtrus.setOnClickListener(onClickListener)
         txteng.setOnClickListener(onClickListener)
         btnLogin.setOnClickListener(onClickListener)
         txtRegistration.setOnClickListener(onClickListener)
 
+        if (AGApplication.getLanguage() == "eng")
+            txteng.performClick()
+
         editLogin.addTextChangedListener { loginEdit ->
             loginEdit?.let {
-                editPassword.text?.let { passwordEdit ->
-                    btnLogin.isEnabled = passwordEdit.length >= 6 && loginEdit.length >= 4
+                if (loginEdit.contains(" ")) {
+                    editLogin.setError(true)
+                    error.visibility = TextView.VISIBLE
+                    error.text = "Не должно содержаться пробелов"
+//                    editLoginInput.error = "Не должно содержаться пробелов"
+                } else {
+                    editLogin.setError(false)
+                    error.visibility = TextView.GONE
+                    error.text = ""
+//                    editLoginInput.error = null
+                    editPassword.text?.let { passwordEdit ->
+                        btnLogin.isEnabled = passwordEdit.length >= 6 && loginEdit.length >= 4
+//                        error.visibility = TextView.VISIBLE
+//                        error.text = "Пароль должен быть больше или равен 6 символам"
+                    }
                 }
             }
             false
@@ -82,12 +147,33 @@ class LoginSignActivity : AppCompatActivity() {
 
         editPassword.addTextChangedListener { passwordEdit ->
             passwordEdit?.let {
-                editLogin.text?.let { loginEdit ->
-                    btnLogin.isEnabled = loginEdit.length >= 4 && passwordEdit.length >= 6
+                if (editLogin.text!!.contains(" ")) {
+                    editLogin.setError(true)
+                    error.visibility = TextView.VISIBLE
+                    error.text = "Не должно содержаться пробелов"
+//                    editLoginInput.error = "Не должно содержаться пробелов"
+                } else {
+                    editLogin.setError(false)
+                    error.visibility = TextView.GONE
+                    error.text = ""
+                    editLogin.text?.let { loginEdit ->
+                        btnLogin.isEnabled = loginEdit.length >= 4 && passwordEdit.length >= 6
+                    }
                 }
             }
             false
         }
+
+        model.language.observe(this, Observer<String> {
+            println("LiveData --> $it")
+            if(it == "rus") {
+                txtrus.setTextColor(colorEnable)
+                txteng.setTextColor(colorDisable)
+            }else{
+                txteng.setTextColor(colorEnable)
+                txtrus.setTextColor(colorDisable)
+            }
+        })
 
 //        var radioGroup = radioGroup
 //        radioGroup.setOnCheckedChangeListener { group, checkedId ->
