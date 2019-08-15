@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent_100_white"
+            app:elevation="0dp"
+            android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:background="#f8f7f5"
+                android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    app:title="Hello World"
+                    app:layout_collapseMode="pin"
+                    app:titleTextColor="@color/agora_blue">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <ImageButton
+                            android:id="@+id/backButton"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/clear_ripple_noborder"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:src="@drawable/ic_chevron_left"
+                            app:layout_constraintVertical_bias="0.0"/>
+
+                    <TextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="31  14:30"
+                            android:gravity="center"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/oswald"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.0"
+                            android:layout_marginTop="8dp"/>
+
+                    <TextView
+                            android:id="@+id/txtMouth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="августа"
+                            android:textSize="11sp"
+                            android:fontFamily="@font/oswald"
+                            app:layout_constraintTop_toBottomOf="@+id/txtDate"
+                            app:layout_constraintBottom_toBottomOf="@+id/txtDate"
+                            app:layout_constraintStart_toStartOf="@+id/txtDate"
+                            app:layout_constraintEnd_toEndOf="@+id/txtDate"
+                            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"/>
+
+                    <TextView
+                            android:id="@+id/txtTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="8dp"
+                            android:text="Английская Премьер-лига 1/8 финала"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toTopOf="@+id/seekBar2"/>
+
+                    <ImageButton
+                            android:id="@+id/btnPlay"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/chevron_play"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:background="@drawable/clear_ripple_noborder"
+                            android:layout_marginBottom="8dp"
+                    />
+
+                    <SeekBar
+                            android:id="@+id/seekBar2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:tickMarkTint="@color/orange"
+                            android:progressTint="@color/orange"
+                            android:thumbTint="@color/orange"
+                            android:min="1"
+                            android:max="240"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/btnPlay"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                            android:id="@+id/txtDelay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/seekBar2"
+                            app:layout_constraintTop_toTopOf="@+id/seekBar2"
+                            app:layout_constraintStart_toStartOf="@+id/seekBar2"
+                            app:layout_constraintEnd_toEndOf="@id/seekBar2"
+                            android:text="Задержка 0 сек"
+                            android:textSize="10sp"
+                            android:textColor="@color/orange"
+                    />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="bottom|center"
+            android:background="@color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imageStreamer"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                fresco:placeholderImage="@drawable/michail"
+                fresco:placeholderImageScaleType="centerInside"
+                fresco:roundAsCircle="true"
+                fresco:roundWithOverlayColor="@color/white"
+                fresco:roundingBorderWidth="1dp"
+                fresco:roundingBorderColor="@color/red"
+                fresco:progressBarImage="@drawable/chevron_time"
+                fresco:progressBarImageScaleType="centerInside"
+        />
+
+        <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Пазин Михаил"
+                android:textSize="16sp"
+                android:fontFamily="@font/lato_thin"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/imageStreamer"
+                app:layout_constraintTop_toTopOf="@+id/imageStreamer"
+                app:layout_constraintBottom_toTopOf="@+id/txtDescription"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="1.0"/>
+
+        <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:lines="2"
+                android:textColor="@color/text_disabled"
+                android:text="Российский спортивный\nжурналист"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/imageStreamer"
+                app:layout_constraintTop_toBottomOf="@+id/txtName"
+                app:layout_constraintBottom_toTopOf="@+id/ratingStreamer"
+                app:layout_constraintVertical_chainStyle="packed"
+        />
+
+        <RatingBar
+                android:id="@+id/ratingStreamer"
+                style="@style/RatingBar"
+                android:progressTint="#F9BB28"
+                android:progressBackgroundTint="@color/gray"
+                android:secondaryProgressTint="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:numStars="5"
+                android:stepSize="1"
+                android:rating="2.5"
+                app:layout_constraintStart_toEndOf="@+id/imageStreamer"
+                app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+                app:layout_constraintBottom_toBottomOf="@+id/imageStreamer"
+                app:layout_constraintVertical_chainStyle="packed"
+        />
+
+        <TextView
+                android:id="@+id/txtSubscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отписаться"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:fontFamily="@font/lato"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/txtName"
+                app:layout_constraintTop_toTopOf="@+id/imageStreamer"
+                app:layout_constraintBottom_toBottomOf="@+id/imageStreamer"
+                app:layout_constraintHorizontal_bias="1.0" android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"/>
+        <View
+                android:id="@+id/divider"
+                android:layout_width="395dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/imageStreamer"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

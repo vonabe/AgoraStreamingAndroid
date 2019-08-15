@@ -6,8 +6,7 @@ import retrofit2.Call
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import java.sql.Timestamp
-import java.util.*
+import retrofit2.http.PartMap
 
 interface RestApiService {
 
@@ -43,7 +42,14 @@ interface RestApiService {
         @Part("category_id") category_id: RequestBody?,
         @Part("date") date: RequestBody?,
         @Part("bc_id") bc_id: RequestBody?
-    ): Call<Broadcasts>
+    ): Call<List<Broadcast>>
+
+    @Multipart
+    @POST("/api/get_broadcasts")
+    fun getBroadcast(
+        @Part("api_key") key_token: RequestBody = token,
+        @PartMap options: Map<String, String>? = emptyMap()
+    ): Call<List<Broadcast>>
 
     @Multipart
     @POST("/api/add_broadcast")
@@ -55,6 +61,26 @@ interface RestApiService {
         @Part("streamer_id") streamer_id: RequestBody?,
         @Part("category_id") category_id: RequestBody?
     ): Call<AddBroadcast>
+
+    @Multipart
+    @POST("/api/get_streamers")
+    fun getStreamers(
+        @Part("api_key") key_token: RequestBody = token
+    ): Call<List<Streamers>>
+
+    @Multipart
+    @POST("/api/broadcast_start")
+    fun startStream(
+        @Part("api_key") key_token: RequestBody = token,
+        @Part("bc_id") bc_id: RequestBody?
+    ): Call<StatusStartStream>
+
+    @Multipart
+    @POST("/api/broadcast_end")
+    fun stopStream(
+        @Part("api_key") key_token: RequestBody = token,
+        @Part("bc_id") bc_id: RequestBody?
+    ): Call<Status>
 
 
 }

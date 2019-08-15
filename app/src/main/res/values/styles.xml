@@ -11,7 +11,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/agora_blue</item>
-
     </style>
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
@@ -32,9 +31,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/agora_blue</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:drawablePadding">5dp</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Material">
+        <item name="android:colorButtonNormal">@color/orange</item>
+        <!--<item name="android:colorControlHighlight">@color/accent_ripple</item>-->
+        <!--android:backgroundTint="@color/orange"-->
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -44,16 +49,10 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="NotificationUIText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">2</item>
-        <item name="android:shadowColor">@color/transparent_100_white</item>
+    <style name="RatingBar" parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gold</item>
     </style>
-
 
 
 </resources>

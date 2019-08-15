@@ -103,6 +103,10 @@ class CustomAudioPlayer(val context: Context) : Runnable {
         }
     }
 
+    fun getDelay():Int{
+        return delay
+    }
+
     fun setDelay(delay: Int) {
         this.delay = delay
         this.timer = 0.0

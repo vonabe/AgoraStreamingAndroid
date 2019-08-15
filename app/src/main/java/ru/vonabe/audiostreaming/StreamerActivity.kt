@@ -24,13 +24,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.vonabe.audiostreaming.only.EngineConfig
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class StreamerActivity : AppCompatActivity() {
 
     companion object {
         private val REQUEST_PERMISSIONS_RECORD = 1000
     }
 
-    private val LOG_TAG: String = "MainActivity"
+    private val LOG_TAG: String = "StreamerActivity"
 
     private var output: TextView? = null
     private var scrollPanel: ScrollView? = null

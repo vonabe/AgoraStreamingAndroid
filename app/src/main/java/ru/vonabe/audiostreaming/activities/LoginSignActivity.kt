@@ -25,6 +25,7 @@ import ru.vonabe.audiostreaming.LanguageViewModel
 import ru.vonabe.audiostreaming.R
 import ru.vonabe.audiostreaming.network.pojo.Login
 import ru.vonabe.audiostreaming.only.AGApplication
+import ru.vonabe.audiostreaming.only.LoginAndPassword
 
 class LoginSignActivity : AppCompatActivity() {
 
@@ -98,6 +99,23 @@ class LoginSignActivity : AppCompatActivity() {
 
                                 loading.visibility = View.GONE
                                 btnLogin.isEnabled = true
+
+                                if (response.isSuccessful && response.body() != null) {
+                                    val body = response.body()
+                                    if (body?.status == 1) {
+
+                                        AGApplication.saveAuth(
+                                            LoginAndPassword(
+                                                login = editLogin?.text.toString(),
+                                                password = editPassword?.text.toString()
+                                            )
+                                        )
+                                        startActivity(Intent(this@LoginSignActivity, HomeHearer::class.java))
+                                    } else {
+                                        error.visibility = TextView.VISIBLE
+                                        error.text = "Неверный логин или пароль"
+                                    }
+                                }
                             }
 
                             override fun onFailure(call: Call<Login>, t: Throwable) {
@@ -166,14 +184,19 @@ class LoginSignActivity : AppCompatActivity() {
 
         model.language.observe(this, Observer<String> {
             println("LiveData --> $it")
-            if(it == "rus") {
+            if (it == "rus") {
                 txtrus.setTextColor(colorEnable)
                 txteng.setTextColor(colorDisable)
-            }else{
+            } else {
                 txteng.setTextColor(colorEnable)
                 txtrus.setTextColor(colorDisable)
             }
         })
+
+        AGApplication.getAuth()?.let {
+            editLogin.setText(it.login)
+            editPassword.setText(it.password)
+        }
 
 //        var radioGroup = radioGroup
 //        radioGroup.setOnCheckedChangeListener { group, checkedId ->

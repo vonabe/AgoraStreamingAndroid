@@ -20,7 +20,8 @@
             android:largeHeap="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Material">
+            android:theme="@style/Material"
+            android:usesCleartextTraffic="true">
 
         <activity android:name=".activities.LoginSignActivity">
             <intent-filter>
@@ -30,7 +31,8 @@
         </activity>
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.SigninActivity" android:windowSoftInputMode="adjustUnspecified"/>
-        <activity android:name=".activities.HomeHearer" android:theme="@style/AppTheme"/>
+        <activity android:name=".activities.HomeHearer" android:windowSoftInputMode="adjustUnspecified" android:theme="@style/AppTheme"/>
+        <activity android:name=".StreamerActivityTwo"/>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 

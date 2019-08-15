@@ -49,10 +49,12 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 AGApplication.service.login(
                     email = RequestBody.create(MediaType.get("multipart/form-data"), username.text.toString()),
-                    password = RequestBody.create(MediaType.get("multipart/form-data"), password.text.toString()))
+                    password = RequestBody.create(MediaType.get("multipart/form-data"), password.text.toString())
+                )
                     .enqueue(object : Callback<Login> {
                         override fun onResponse(call: Call<Login>, response: Response<Login>) {
-                            Toast.makeText(this@LoginActivity, "${response.body().toString()}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@LoginActivity, "${response.body().toString()}", Toast.LENGTH_LONG)
+                                .show()
                             loading.visibility = View.GONE
                         }
 

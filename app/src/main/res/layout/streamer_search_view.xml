@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:clickable="true"
+        android:background="@drawable/button_ripple">
+
+    <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@mipmap/img_avatars"
+    />
+    <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vonabe"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_light"
+            android:textColor="#4D76A1"
+            app:layout_constraintBottom_toTopOf="@+id/txtDescription" app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+            app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+            android:text="ArtExcurse"
+            android:textSize="10sp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#CACFD8"
+            android:textStyle="bold" app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+            style="@style/RatingBar"
+            android:progressTint="#F9BB28"
+            android:progressBackgroundTint="@color/gray"
+            android:secondaryProgressTint="@color/gray"
+            android:id="@+id/ratingBar"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="2.5"
+            android:isIndicator="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <Button
+            android:background="@drawable/button_ripple_sub"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:textSize="11sp"
+            android:id="@+id/btnSub" android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Подписаться" android:textAllCaps="false" android:fontFamily="@font/lato"
+            android:textColor="#93BDD0"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
