@@ -23,7 +23,7 @@ import retrofit2.Response
 import ru.vonabe.audiostreaming.CustomEditText
 import ru.vonabe.audiostreaming.LanguageViewModel
 import ru.vonabe.audiostreaming.R
-import ru.vonabe.audiostreaming.network.pojo.Login
+import ru.vonabe.audiostreaming.network.pojo.User
 import ru.vonabe.audiostreaming.only.AGApplication
 import ru.vonabe.audiostreaming.only.LoginAndPassword
 
@@ -89,8 +89,8 @@ class LoginSignActivity : AppCompatActivity() {
                                 MediaType.get("multipart/form-data"),
                                 editPassword.text.toString()
                             )
-                        ).enqueue(object : Callback<Login> {
-                            override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                        ).enqueue(object : Callback<User> {
+                            override fun onResponse(call: Call<User>, response: Response<User>) {
                                 Toast.makeText(
                                     this@LoginSignActivity,
                                     "${response.body().toString()}",
@@ -103,6 +103,7 @@ class LoginSignActivity : AppCompatActivity() {
                                 if (response.isSuccessful && response.body() != null) {
                                     val body = response.body()
                                     if (body?.status == 1) {
+                                        AGApplication.setUser(body)
 
                                         AGApplication.saveAuth(
                                             LoginAndPassword(
@@ -118,7 +119,7 @@ class LoginSignActivity : AppCompatActivity() {
                                 }
                             }
 
-                            override fun onFailure(call: Call<Login>, t: Throwable) {
+                            override fun onFailure(call: Call<User>, t: Throwable) {
                                 t.printStackTrace()
                                 Toast.makeText(this@LoginSignActivity, "Error ${t.message}", Toast.LENGTH_LONG)
                                     .show()

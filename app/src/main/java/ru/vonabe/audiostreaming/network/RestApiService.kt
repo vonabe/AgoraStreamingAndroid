@@ -29,11 +29,11 @@ interface RestApiService {
         @Part("api_key") key_token: RequestBody = token,
         @Part("username") email: RequestBody,
         @Part("password") password: RequestBody
-    ): Call<Login>
+    ): Call<User>
 
     @Multipart
     @POST("/api/get_broadcast_categories")
-    fun getBroadcastCategories(@Part("api_key") key: RequestBody = token): Call<BroadcastCategories>
+    fun getBroadcastCategories(@Part("api_key") key: RequestBody = token): Call<List<BroadcastCategories>>
 
     @Multipart
     @POST("/api/get_broadcasts")

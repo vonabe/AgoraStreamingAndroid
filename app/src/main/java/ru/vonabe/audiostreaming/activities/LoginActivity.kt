@@ -19,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.vonabe.audiostreaming.R
-import ru.vonabe.audiostreaming.network.pojo.Login
+import ru.vonabe.audiostreaming.network.pojo.User
 import ru.vonabe.audiostreaming.only.AGApplication
 
 class LoginActivity : AppCompatActivity() {
@@ -51,14 +51,14 @@ class LoginActivity : AppCompatActivity() {
                     email = RequestBody.create(MediaType.get("multipart/form-data"), username.text.toString()),
                     password = RequestBody.create(MediaType.get("multipart/form-data"), password.text.toString())
                 )
-                    .enqueue(object : Callback<Login> {
-                        override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                    .enqueue(object : Callback<User> {
+                        override fun onResponse(call: Call<User>, response: Response<User>) {
                             Toast.makeText(this@LoginActivity, "${response.body().toString()}", Toast.LENGTH_LONG)
                                 .show()
                             loading.visibility = View.GONE
                         }
 
-                        override fun onFailure(call: Call<Login>, t: Throwable) {
+                        override fun onFailure(call: Call<User>, t: Throwable) {
                             Toast.makeText(this@LoginActivity, "Error ${t.message}", Toast.LENGTH_LONG).show()
                             loading.visibility = View.GONE
                             t.printStackTrace()

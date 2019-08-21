@@ -9,11 +9,13 @@ import io.agora.rtc.IAudioFrameObserver
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import ru.vonabe.audiostreaming.only.EngineConfig
+import java.lang.ref.WeakReference
 import java.util.*
 
-class AgoraInitialize(val context: Context) {
+class AgoraInitialize {
 
     companion object {
+        private var reference: WeakReference<Activity>? = null
         private const val LOG_TAG = "AgoraInitialize"
         private const val REQUEST_PERMISSIONS_RECORD = 1000
 
@@ -23,10 +25,11 @@ class AgoraInitialize(val context: Context) {
         @Synchronized
         fun getInstance(context: Context): AgoraInitialize? {
             instance = if (instance == null) {
-                AgoraInitialize(context)
+                AgoraInitialize()
             } else {
                 instance
             }
+            this.reference = WeakReference(context as Activity)
             return instance
         }
 
@@ -64,9 +67,9 @@ class AgoraInitialize(val context: Context) {
         )
         log(LOG_TAG, "joinChannel - $joinChannel")
 
-        (context as Activity).volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        reference?.get()?.volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
-        customPlayer = if (customPlayer == null) CustomAudioPlayer(context) else customPlayer
+        customPlayer = if (customPlayer == null) CustomAudioPlayer(reference!!) else customPlayer
 
     }
 
@@ -94,7 +97,7 @@ class AgoraInitialize(val context: Context) {
         mRtcEngine?.setClientRole(mEngineConfig!!.mClientRole)
 //            mRtcEngine?.setLocalVoiceChanger(Constants.VOICE_CHANGER_OLDMAN)
 
-        (context as Activity).volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        reference?.get()?.volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
         //Create and join a channel.
         val joinChannel = mRtcEngine?.joinChannel(
@@ -105,17 +108,19 @@ class AgoraInitialize(val context: Context) {
         )
         log(LOG_TAG, "joinChannel - $joinChannel")
 
-        customPlayer = if (customPlayer == null) CustomAudioPlayer(context) else customPlayer
+        customPlayer = if (customPlayer == null) CustomAudioPlayer(reference!!) else customPlayer
     }
 
     fun destroy() {
+        customPlayer?.destroy()
         RtcEngine.destroy()
+        customPlayer = null
     }
 
     private fun initializeAgoraEngine(appid: String) {
         try {
             mRtcEngine =
-                RtcEngine.create(context, appid, object : IRtcEngineEventHandler() {
+                RtcEngine.create(reference?.get(), appid, object : IRtcEngineEventHandler() {
                     override fun onRtcStats(stats: RtcStats?) {
                         super.onRtcStats(stats)
                         log(LOG_TAG, "onRtcStats: ${stats?.cpuAppUsage}")

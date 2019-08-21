@@ -174,11 +174,11 @@ class SigninActivity : AppCompatActivity() {
         }
 
         model.language.observe(this, Observer<String> {
-//            if (AGApplication.getLanguage() == "eng")txteng.performClick() else txtrus.performClick()
-            if(it == "rus") {
+            //            if (AGApplication.getLanguage() == "eng")txteng.performClick() else txtrus.performClick()
+            if (it == "rus") {
                 txtrus.setTextColor(colorEnable)
                 txteng.setTextColor(colorDisable)
-            }else{
+            } else {
                 txteng.setTextColor(colorEnable)
                 txtrus.setTextColor(colorDisable)
             }
@@ -268,7 +268,7 @@ class SigninActivity : AppCompatActivity() {
             }
         }
 
-        if(!Utils.isValidEmailAddress(editEmail!!.text.toString())){
+        if (!Utils.isValidEmailAddress(editEmail!!.text.toString())) {
             validData = false
             errorOutput?.text = "Неправильный email"
         }
@@ -280,9 +280,12 @@ class SigninActivity : AppCompatActivity() {
                 password = RequestBody.create(MediaType.get("multipart/form-data"), editPassword?.text.toString()),
                 is_streamer = RequestBody.create(
                     MediaType.get("multipart/form-data"),
-                    if(isStreamer) 1.toString() else 0.toString()
+                    if (isStreamer) 1.toString() else 0.toString()
                 ),
-                language = RequestBody.create(MediaType.get("multipart/form-data"), if(AGApplication.getLanguage() == "rus") 2.toString() else 1.toString())
+                language = RequestBody.create(
+                    MediaType.get("multipart/form-data"),
+                    if (AGApplication.getLanguage() == "rus") 2.toString() else 1.toString()
+                )
             )
             registration.enqueue(object : retrofit2.Callback<Registration> {
                 override fun onFailure(call: Call<Registration>, t: Throwable) {
@@ -297,7 +300,7 @@ class SigninActivity : AppCompatActivity() {
                     progress?.visibility = ProgressBar.GONE
                 }
             })
-        }else{
+        } else {
             progress?.visibility = ProgressBar.GONE
         }
     }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:clickable="true"
+        android:background="@drawable/button_ripple">
+
+    <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/img_avatars"
+            android:layout_marginTop="8dp"/>
+    <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Начать стрим"
+            app:layout_constraintTop_toTopOf="@+id/img"
+            android:layout_marginStart="8dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_light"
+            android:textColor="#4D76A1"
+            app:layout_constraintBottom_toTopOf="@+id/txtDescription"
+            app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+            app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+            android:text="Войти к себе на стрим"
+            android:textSize="10sp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#CACFD8"
+            android:textStyle="bold" app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+            style="@style/RatingBar"
+            android:progressTint="#F9BB28"
+            android:progressBackgroundTint="@color/gray"
+            android:secondaryProgressTint="@color/gray"
+            android:id="@+id/ratingBar"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="2.5"
+            android:isIndicator="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="@+id/img"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnSub"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/inputStreamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/img"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerCategoryStream"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtTitle"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:hint="Введите название трансляции"
+            android:textSize="12sp"
+    />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinnerCategoryStream"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/txtTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputStreamName"
+            app:layout_constraintBottom_toBottomOf="@+id/img"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintVertical_chainStyle="packed"
+    >
+
+    </androidx.appcompat.widget.AppCompatSpinner>
+
+    <androidx.appcompat.widget.AppCompatButton
+            style="@style/ThemeOverlay.MaterialComponents.Light"
+            android:id="@+id/btnSwitchStream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:text="Запустить"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            app:backgroundTint="@color/red"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,7 @@ import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.vonabe.audiostreaming.only.EngineConfig
+import java.lang.ref.WeakReference
 import java.util.*
 
 class StreamerActivity : AppCompatActivity() {
@@ -140,7 +141,7 @@ class StreamerActivity : AppCompatActivity() {
             )
             log(LOG_TAG, "joinChannel - $joinChannel")
 
-            customPlayer = if (customPlayer == null) CustomAudioPlayer(this) else customPlayer
+            customPlayer = if (customPlayer == null) CustomAudioPlayer(WeakReference(this)) else customPlayer
 //            customPlayer?.audioPlayerCreate()
 
 
@@ -209,7 +210,7 @@ class StreamerActivity : AppCompatActivity() {
 
             volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
-            customPlayer = if (customPlayer == null) CustomAudioPlayer(this) else customPlayer
+            customPlayer = if (customPlayer == null) CustomAudioPlayer(WeakReference(this)) else customPlayer
 //            customPlayer?.audioPlayerCreate()
 
         }

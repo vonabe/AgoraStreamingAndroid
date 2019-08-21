@@ -7,6 +7,11 @@ import android.os.StrictMode;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import ru.vonabe.audiostreaming.network.RetrofitClientInstance;
 import ru.vonabe.audiostreaming.network.pojo.RestApiService;
+import ru.vonabe.audiostreaming.network.pojo.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AGApplication extends Application {
 
@@ -16,6 +21,22 @@ public class AGApplication extends Application {
     private static AGApplication instance;
 
     private static Context context;
+
+    private static User user = null;
+
+    public static void setUser(User user) {
+        AGApplication.user = user;
+    }
+
+    public static User getUser(){
+        return user;
+    }
+
+    public static String[] getCurrentTime(){
+        Date currentTime = Calendar.getInstance().getTime();
+        String format = new SimpleDateFormat("yyyy-MM-dd&HH:mm:s").format(currentTime);
+        return format.split("&");
+    }
 
     public static void saveAuth(LoginAndPassword loginAndPassword) {
         SharedPreferences preferences_login = context.getSharedPreferences("auth_preferences", Context.MODE_PRIVATE);

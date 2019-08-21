@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import ru.vonabe.audiostreaming.R
 import ru.vonabe.audiostreaming.network.pojo.UserSearch
 
@@ -40,6 +42,7 @@ class StreamerSearchRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.streamer_search_view, parent, false)
+
         return UserHolder(view)
     }
 
@@ -62,12 +65,11 @@ class StreamerSearchRecyclerAdapter(
         holder.btnSubscribe?.setOnClickListener {
             callback.subscribe(userSearch)
         }
-
     }
 }
 
 
-class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+open class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     var img: ImageView? = null
     var title: TextView? = null
@@ -86,6 +88,9 @@ class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun setTitle(res: String) {
         title?.text = res
+        if (res.equals("начать стрим", ignoreCase = true)) {
+            btnSubscribe?.visibility = Button.GONE
+        }
     }
 
     fun setDescription(res: String) {
@@ -104,8 +109,20 @@ class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         btnSubscribe = itemView.findViewById<Button>(R.id.btnSub)
         core = itemView
     }
+}
+
+class MyStreamHolder : UserHolder {
+
+    var titleStream: EditText? = null
+    var btnTuggleStream: MaterialButton? = null
+
+    constructor(itemView: View): super(itemView){
+        titleStream = itemView.findViewById(R.id.inputStreamName)
+        btnTuggleStream = itemView.findViewById(R.id.btnSwitchStream)
+    }
 
 }
+
 
 interface Callback {
     fun subscribe(user: UserSearch)

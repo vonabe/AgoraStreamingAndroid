@@ -9,11 +9,16 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +30,12 @@ import ru.vonabe.audiostreaming.only.AGApplication
 class HomeHearer : AppCompatActivity() {
 
     private var streamerSearchRecyclerAdapter: StreamerSearchRecyclerAdapter? = null
+    private var my_stream_constructor: ConstraintLayout? = null
+    private var streamer: Streamers? = null
+
+    private var streamNameEdit: AppCompatEditText? = null
+    private var btnStartStream: AppCompatButton? = null
+    private var selectCategory: AppCompatSpinner? = null
 
     companion object {
         val listBroadcast = HashMap<String, Keys>()
@@ -41,6 +52,197 @@ class HomeHearer : AppCompatActivity() {
         setContentView(R.layout.home_hearer)
 //        var toolbar = findViewById<Toolbar>(R.id.toolbar)
 //        setSupportActionBar(toolbar)
+
+        my_stream_constructor = findViewById(R.id.includeMyStream)
+
+        my_stream_constructor?.let { it ->
+
+            var category: ArrayList<BroadcastCategories>? = null
+            selectCategory = it.findViewById(R.id.spinnerCategoryStream)
+            selectCategory!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+            }
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayListOf())
+            selectCategory!!.adapter = arrayAdapter
+
+            AGApplication.service.getBroadcastCategories().enqueue(object : Callback<List<BroadcastCategories>> {
+                override fun onFailure(call: Call<List<BroadcastCategories>>, t: Throwable) {}
+
+                override fun onResponse(
+                    call: Call<List<BroadcastCategories>>,
+                    response: Response<List<BroadcastCategories>>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val body = response.body()
+                        category = ArrayList(body)
+                        body?.forEach { category ->
+                            val catId = category.cat_id
+                            val catName = category.cat_name
+                            arrayAdapter.add(catName)
+                        }
+                        arrayAdapter.notifyDataSetChanged()
+                        selectCategory!!.setSelection(0)
+                    }
+                }
+            })
+
+            streamNameEdit = it.findViewById(R.id.inputStreamName)
+            btnStartStream = it.findViewById(R.id.btnSwitchStream)
+
+            AGApplication.service.getStreamers().enqueue(object : Callback<List<Streamers>> {
+                override fun onFailure(call: Call<List<Streamers>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<List<Streamers>>, response: Response<List<Streamers>>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val body = response.body()
+                        body?.forEach {
+                            if (it.id == AGApplication.getUser().user_id) {
+                                streamer = it
+                                val list = ArrayList(streamer?.broadcasts)
+                                var isStopStream = false
+                                var broadcast: Broadcasts? = null
+
+                                list.forEach {
+                                    if (it.online == 1) {
+                                        streamNameEdit!!.setText(it.name)
+                                        streamNameEdit!!.isEnabled = false
+                                        selectCategory!!.isEnabled = false
+                                        btnStartStream!!.text = "Остановить"
+                                        isStopStream = true
+                                        broadcast = it
+                                    }
+                                }
+
+                                btnStartStream!!.setOnClickListener {
+                                    if (isStopStream) {
+
+                                        AGApplication.service.stopStream(
+                                            bc_id = RequestBody.create(
+                                                MediaType.get("multipart/form-data"),
+                                                broadcast!!.bc_id.toString()
+                                            )
+                                        )
+                                            .enqueue(object : Callback<Status> {
+                                                override fun onFailure(call: Call<Status>, t: Throwable) {
+                                                    t.printStackTrace()
+                                                }
+
+                                                override fun onResponse(
+                                                    call: Call<Status>,
+                                                    response: Response<Status>
+                                                ) {
+                                                    if (response.isSuccessful && response.body() != null) {
+                                                        val body = response.body()
+                                                        if (body?.status == 1) {
+                                                            Toast.makeText(
+                                                                this@HomeHearer,
+                                                                "Трансляций завершена",
+                                                                Toast.LENGTH_LONG
+                                                            ).show()
+                                                            list.remove(broadcast)
+                                                            var bool = false
+                                                            list.forEach {
+                                                                if(it.online == 1){
+                                                                    selectCategory!!.setSelection(if(it.category_id == 1) 0 else 1)
+                                                                    streamNameEdit!!.setText(it.name)
+                                                                    streamNameEdit!!.isEnabled = false
+                                                                    selectCategory!!.isEnabled = false
+                                                                    btnStartStream!!.text = "Остановить"
+                                                                    isStopStream = true
+                                                                    broadcast = it
+                                                                    bool = true
+                                                                }
+                                                            }
+                                                            if(!bool){
+                                                                streamNameEdit!!.setText("")
+                                                                streamNameEdit!!.isEnabled = true
+                                                                selectCategory!!.isEnabled = true
+                                                                btnStartStream!!.text = "Запустить"
+                                                                isStopStream = false
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                            })
+
+                                        return@setOnClickListener
+                                    }
+
+                                    val streamName = streamNameEdit!!.text.toString()
+
+                                    if (streamName.isNullOrEmpty()) {
+                                        streamNameEdit!!.error = "Поле не должно быть пустым"
+                                        return@setOnClickListener
+                                    }
+
+                                    val currentTime = AGApplication.getCurrentTime()
+                                    Log.e(
+                                        "HomeHearer",
+                                        "Stream name $streamName CurrentTime ${currentTime[0]} ${currentTime[1]}"
+                                    )
+
+                                    AGApplication.service.addBroadcast(
+                                        name = RequestBody.create(
+                                            MediaType.get("multipart/form-data"),
+                                            streamName
+                                        ),
+                                        date = RequestBody.create(
+                                            MediaType.get("multipart/form-data"),
+                                            AGApplication.getCurrentTime()[0]
+                                        ),
+                                        time_utc = RequestBody.create(
+                                            MediaType.get("multipart/form-data"),
+                                            AGApplication.getCurrentTime()[1]
+                                        ),
+                                        streamer_id = RequestBody.create(
+                                            MediaType.get("multipart/form-data"),
+                                            AGApplication.getUser().user_id.toString()
+                                        ),
+                                        category_id = RequestBody.create(
+                                            MediaType.get("multipart/form-data"),
+                                            category!![selectCategory!!.selectedItemId.toInt()].cat_id
+                                        )
+                                    ).enqueue(object : Callback<AddBroadcast> {
+                                        override fun onFailure(call: Call<AddBroadcast>, t: Throwable) {
+                                            t.printStackTrace()
+                                        }
+
+                                        override fun onResponse(
+                                            call: Call<AddBroadcast>,
+                                            response: Response<AddBroadcast>
+                                        ) {
+                                            if (response.isSuccessful && response.body() != null) {
+                                                val body = response.body()
+                                                if (body?.bc_id != -1) {
+                                                    Toast.makeText(
+                                                        this@HomeHearer,
+                                                        "Трансляция успешно добавлена ${body?.bc_id}",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+
+                                                    val intent =
+                                                        Intent(this@HomeHearer, StreamerActivityTwo::class.java)
+                                                    intent.putExtra("title", streamName)
+                                                    intent.putExtra("bc_id", body?.bc_id.toString())
+                                                    startActivity(intent)
+                                                }
+                                            }
+                                        }
+                                    })
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            })
+
+        }
 
         var spinnerFilter = findViewById<AppCompatSpinner>(R.id.spinnerFilter)
 
@@ -142,7 +344,6 @@ class HomeHearer : AppCompatActivity() {
         titleTranslation.setOnClickListener(onChangeTitles)
 
         this.loadStreamers()
-
     }
 
     private fun loadStreamers() {
@@ -170,16 +371,18 @@ class HomeHearer : AppCompatActivity() {
     private fun changeTypeSearch(type: String) {
         when (type) {
             "streamer" -> {
+                my_stream_constructor?.visibility = ConstraintLayout.GONE
                 loadStreamers()
             }
             "translation" -> {
+                my_stream_constructor?.visibility = ConstraintLayout.VISIBLE
                 streamerSearchRecyclerAdapter?.let {
                     streamerSearchRecyclerAdapter?.clearItems()
-                    streamerSearchRecyclerAdapter?.setItems(
-                        arrayListOf(
-                            UserSearch(R.mipmap.img_avatars, "Начать стрим", "Войти к себе на стрим", 0)
-                        )
-                    )
+//                    streamerSearchRecyclerAdapter?.setItems(
+//                        arrayListOf(
+//                            UserSearch(R.mipmap.img_avatars, "Начать стрим", "Войти к себе на стрим", 0)
+//                        )
+//                    )
                     streamerSearchRecyclerAdapter?.notifyDataSetChanged()
                 }
             }

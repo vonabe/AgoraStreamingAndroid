@@ -1,7 +1,7 @@
 package ru.vonabe.audiostreaming
 
+import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
@@ -11,10 +11,11 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.TimeUnit
 
-class CustomAudioPlayer(val context: Context) : Runnable {
+class CustomAudioPlayer(val context: WeakReference<Activity>) : Runnable {
 
     inner class Task : AsyncTask<Void, Double, Void>() {
 
@@ -56,6 +57,8 @@ class CustomAudioPlayer(val context: Context) : Runnable {
 
     }
 
+    private var threadAlive = true
+    private var thread: Thread? = null
     private val LOG_TAG = "CustomAudioPlayer"
     private var timer = 0.0
     private var delay: Int = 0
@@ -67,14 +70,14 @@ class CustomAudioPlayer(val context: Context) : Runnable {
     private val alertDialog: AlertDialog
 
     init {
-        this.progress = ProgressBar(context)
-        var builder = AlertDialog.Builder(context)
+        this.progress = ProgressBar(context.get())
+        var builder = AlertDialog.Builder(context.get())
         this.alertDialog = builder.create()
 
-        this.txt = TextView(context)
+        this.txt = TextView(context.get())
         this.txt.text = "Buffering"
         this.txt.gravity = Gravity.CENTER
-        var core = LinearLayout(context)
+        var core = LinearLayout(context.get())
         core.gravity = Gravity.CENTER
         core.orientation = LinearLayout.VERTICAL
         core.addView(this.progress)
@@ -85,7 +88,7 @@ class CustomAudioPlayer(val context: Context) : Runnable {
     }
 
     override fun run() {
-        while (true) {
+        while (threadAlive) {
             if (timer >= delay) {
                 if (!buffersStack.isEmpty()) {
                     val data = buffersStack.pop()
@@ -101,6 +104,22 @@ class CustomAudioPlayer(val context: Context) : Runnable {
 //                Log.d(LOG_TAG, "Don't Buffering Size $timer < $delay")
             }
         }
+    }
+
+    fun destroy(){
+        threadAlive = false
+        thread?.interrupt()
+
+        track?.let {
+            it.stop()
+            it.flush()
+            it.release()
+        }
+        buffersStack.clear()
+
+        track = null
+        thread = null
+
     }
 
     fun getDelay():Int{
@@ -133,7 +152,9 @@ class CustomAudioPlayer(val context: Context) : Runnable {
 
 //        InputStreamSamples: Samples 960, numOfSamples 480, bytesPerSample 2, channels 1  samplesPerSec 48000
 
-        Thread(this).start()
+        threadAlive = true
+        thread = Thread(this)
+        thread!!.start()
     }
 
     private fun byteSampleToSec(Hz: Int, bytes: Int, bitDepth: Int): Double {
