@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ProgressBar
@@ -22,16 +23,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.android.synthetic.main.activity_registration.btnLogin
-import kotlinx.android.synthetic.main.login_activity.*
 import kotlinx.android.synthetic.main.login_activity.txtEng
 import kotlinx.android.synthetic.main.login_activity.txtRu
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
-import ru.vonabe.audiostreaming.LanguageViewModel
 import ru.vonabe.audiostreaming.R
 import ru.vonabe.audiostreaming.Utils
+import ru.vonabe.audiostreaming.livedata.LanguageViewModelJavaV1
+import ru.vonabe.audiostreaming.livedata.StockLiveDataV1
 import ru.vonabe.audiostreaming.network.pojo.Registration
 import ru.vonabe.audiostreaming.only.AGApplication
 
@@ -55,7 +56,8 @@ class SigninActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_registration)
 
-        val model = ViewModelProviders.of(this).get(LanguageViewModel::class.java)
+        val stockModel = StockLiveDataV1.getInstance()
+        val model = ViewModelProviders.of(this).get(LanguageViewModelJavaV1::class.java)
 
         editLogin = findViewById(R.id.editLogin)
         editEmail = findViewById(R.id.editEmail)
@@ -132,13 +134,15 @@ class SigninActivity : AppCompatActivity() {
                     txtrus.setTextColor(colorEnable)
                     txteng.setTextColor(colorDisable)
                     AGApplication.saveLanguage("rus")
-                    model.language.value = ("rus")
+                    model.data?.postValue("rus")
+                    stockModel.postData("rus")
                 }
                 txteng -> {
                     txteng.setTextColor(colorEnable)
                     txtrus.setTextColor(colorDisable)
                     AGApplication.saveLanguage("eng")
-                    model.language.value = ("eng")
+//                    model.data?.postValue("eng")
+                    stockModel.postData("eng")
                 }
                 btnLogin -> {
                     progress?.visibility = ProgressBar.VISIBLE
@@ -148,12 +152,34 @@ class SigninActivity : AppCompatActivity() {
             }
         }
 
+        stockModel.observe(this, Observer { language ->
+            Log.e("SigninActivity", "Language $language")
+            if (language == "rus") {
+                txtrus.setTextColor(colorEnable)
+                txteng.setTextColor(colorDisable)
+            } else {
+                txteng.setTextColor(colorEnable)
+                txtrus.setTextColor(colorDisable)
+            }
+        })
+
+//        model.data?.observe(this, Observer<String> {
+//            //            if (AGApplication.getLanguage() == "eng")txteng.performClick() else txtrus.performClick()
+//            if (it == "rus") {
+//                txtrus.setTextColor(colorEnable)
+//                txteng.setTextColor(colorDisable)
+//            } else {
+//                txteng.setTextColor(colorEnable)
+//                txtrus.setTextColor(colorDisable)
+//            }
+//        })
+
         txtrus.setOnClickListener(onClickListener)
         txteng.setOnClickListener(onClickListener)
         btnLogin.setOnClickListener(onClickListener)
 
-        if (AGApplication.getLanguage() == "eng")
-            txteng.performClick()
+//        if (AGApplication.getLanguage() == "eng")
+//            txteng.performClick()
 
         var btnStreamer = findViewById<View>(R.id.circle_streamer)
         var btnHearer = findViewById<View>(R.id.circle_hearer)
@@ -172,17 +198,6 @@ class SigninActivity : AppCompatActivity() {
             btnStreamer.setBackgroundResource(R.drawable.btn_circle_streamer_disable)
             isStreamer = false
         }
-
-        model.language.observe(this, Observer<String> {
-            //            if (AGApplication.getLanguage() == "eng")txteng.performClick() else txtrus.performClick()
-            if (it == "rus") {
-                txtrus.setTextColor(colorEnable)
-                txteng.setTextColor(colorDisable)
-            } else {
-                txteng.setTextColor(colorEnable)
-                txtrus.setTextColor(colorDisable)
-            }
-        })
 
 //        val editUsername = findViewById<TextInputEditText>(R.id.editTextUsername)
 //        val editEmail = findViewById<TextInputEditText>(R.id.editTextEmail)

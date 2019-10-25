@@ -20,7 +20,7 @@
                 android:text="RU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_enabled"
+                android:textColor="@color/text_disabled"
                 app:layout_constraintTop_toTopOf="@+id/view"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/view"

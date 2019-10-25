@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
@@ -21,8 +22,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.vonabe.audiostreaming.CustomEditText
-import ru.vonabe.audiostreaming.LanguageViewModel
 import ru.vonabe.audiostreaming.R
+import ru.vonabe.audiostreaming.livedata.LanguageViewModelJavaV1
+import ru.vonabe.audiostreaming.livedata.StockLiveDataV1
 import ru.vonabe.audiostreaming.network.pojo.User
 import ru.vonabe.audiostreaming.only.AGApplication
 import ru.vonabe.audiostreaming.only.LoginAndPassword
@@ -39,7 +41,7 @@ class LoginSignActivity : AppCompatActivity() {
 
         setContentView(R.layout.login_activity)
 
-        val model = ViewModelProviders.of(this).get(LanguageViewModel::class.java)
+        val model = ViewModelProviders.of(this@LoginSignActivity).get(LanguageViewModelJavaV1::class.java)
 
 //        val editLoginInput = editLoginInput
 //        val editPasswordInput = editPasswordInput
@@ -62,8 +64,20 @@ class LoginSignActivity : AppCompatActivity() {
         val txtrus: TextView = txtRu
         val txteng: TextView = txtEng
 
-        txtrus.setTextColor(colorEnable)
-        txteng.setTextColor(colorDisable)
+//        txtrus.setTextColor(colorEnable)
+//        txteng.setTextColor(colorDisable)
+
+        val stockModel = StockLiveDataV1.getInstance()
+        stockModel.observe(this, Observer { language ->
+            Log.e("LoginSignActivity", "Language $language")
+            if (language == "rus") {
+                txtrus.setTextColor(colorEnable)
+                txteng.setTextColor(colorDisable)
+            } else {
+                txteng.setTextColor(colorEnable)
+                txtrus.setTextColor(colorDisable)
+            }
+        })
 
         val onClickListener = View.OnClickListener {
             when (it) {
@@ -71,13 +85,15 @@ class LoginSignActivity : AppCompatActivity() {
                     txtrus.setTextColor(colorEnable)
                     txteng.setTextColor(colorDisable)
                     AGApplication.saveLanguage("rus")
-                    model.language.value = ("rus")
+                    model.data?.postValue("rus")
+                    stockModel.postData("rus")
                 }
                 txteng -> {
                     txteng.setTextColor(colorEnable)
                     txtrus.setTextColor(colorDisable)
                     AGApplication.saveLanguage("eng")
-                    model.language.value = ("eng")
+                    model.data.postValue("eng")
+                    stockModel.postData("eng")
                 }
                 btnLogin -> {
                     btnLogin.isEnabled = false
@@ -107,8 +123,8 @@ class LoginSignActivity : AppCompatActivity() {
 
                                         AGApplication.saveAuth(
                                             LoginAndPassword(
-                                                login = editLogin?.text.toString(),
-                                                password = editPassword?.text.toString()
+                                                login = editLogin.text.toString(),
+                                                password = editPassword.text.toString()
                                             )
                                         )
                                         startActivity(Intent(this@LoginSignActivity, HomeHearer::class.java))
@@ -139,8 +155,8 @@ class LoginSignActivity : AppCompatActivity() {
         btnLogin.setOnClickListener(onClickListener)
         txtRegistration.setOnClickListener(onClickListener)
 
-        if (AGApplication.getLanguage() == "eng")
-            txteng.performClick()
+//        if (AGApplication.getLanguage() == "eng")
+//            txteng.performClick()
 
         editLogin.addTextChangedListener { loginEdit ->
             loginEdit?.let {
@@ -183,16 +199,16 @@ class LoginSignActivity : AppCompatActivity() {
             false
         }
 
-        model.language.observe(this, Observer<String> {
-            println("LiveData --> $it")
-            if (it == "rus") {
-                txtrus.setTextColor(colorEnable)
-                txteng.setTextColor(colorDisable)
-            } else {
-                txteng.setTextColor(colorEnable)
-                txtrus.setTextColor(colorDisable)
-            }
-        })
+//        model.data?.observe(this, Observer<String> {
+//            println("LiveData --> $it")
+//            if (it == "rus") {
+//                txtrus.setTextColor(colorEnable)
+//                txteng.setTextColor(colorDisable)
+//            } else {
+//                txteng.setTextColor(colorEnable)
+//                txtrus.setTextColor(colorDisable)
+//            }
+//        })
 
         AGApplication.getAuth()?.let {
             editLogin.setText(it.login)

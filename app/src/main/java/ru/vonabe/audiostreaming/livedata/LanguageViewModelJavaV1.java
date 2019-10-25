@@ -2,9 +2,10 @@ package ru.vonabe.audiostreaming.livedata;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import ru.vonabe.audiostreaming.only.AGApplication;
 
-public class LanguageViewModelJava extends ViewModel {
+public class LanguageViewModelJavaV1 extends ViewModel {
 
 //    private StockManager stockManager;
 

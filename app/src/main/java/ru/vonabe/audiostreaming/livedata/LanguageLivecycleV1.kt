@@ -5,18 +5,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
-class LanguageLivecycle: LifecycleObserver {
+class LanguageLivecycleV1: LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun connectListener() {
-        Log.e("LanguageLivecycle", "connectListener")
+        Log.e("LanguageLivecycleV1", "connectListener")
         // this method will respond to resume event of our Lifecycle owner (activity/fragment in our case)
         // So let's get location here and provide callback
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun disconnectListener() {
-        Log.e("LanguageLivecycle", "disconnectListener")
+        Log.e("LanguageLivecycleV1", "disconnectListener")
         // this method will respond to pause event of our Lifecycle owner (activity/fragment in our case)
         // So let's stop receiveing location updates here and remove callback
     }
