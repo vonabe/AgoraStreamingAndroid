@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import ru.vonabe.audiostreaming.only.AGApplication
 
-class StockLiveDataJava private constructor() : LiveData<String>() {
+class StockLiveData private constructor() : LiveData<String>() {
 
     private fun loadData() {
         object : Thread() {
@@ -30,9 +30,9 @@ class StockLiveDataJava private constructor() : LiveData<String>() {
     }
 
     companion object {
-        private lateinit var instance: StockLiveDataJava
-        fun getInstance(): StockLiveDataJava {
-            instance = if (::instance.isInitialized) instance else StockLiveDataJava()
+        private lateinit var instance: StockLiveData
+        fun getInstance(): StockLiveData {
+            instance = if (::instance.isInitialized) instance else StockLiveData()
             return instance
         }
     }

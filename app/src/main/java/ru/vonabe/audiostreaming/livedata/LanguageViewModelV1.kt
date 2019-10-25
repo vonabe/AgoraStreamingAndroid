@@ -1,4 +1,4 @@
-package ru.vonabe.audiostreaming
+package ru.vonabe.audiostreaming.livedata
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
